@@ -5,10 +5,11 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 # shellcheck source=../lib/common.sh
 source "$SCRIPT_DIR/../lib/common.sh"
 
-# These variables are read by functions from the sourced common library.
 # shellcheck disable=SC2034
 SCRIPT_NAME="wp-enable-user-registration"
+# shellcheck disable=SC2034
 SCRIPT_SUMMARY="Enable user registration on every WordPress site, protected by an anti-spam plugin."
+# shellcheck disable=SC2034
 SCRIPT_USAGE="./run.sh [options]"
 
 PLUGIN_SLUG="disable-wp-registration-page-spam"

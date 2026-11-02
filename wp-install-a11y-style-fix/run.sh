@@ -5,12 +5,15 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 # shellcheck source=../lib/common.sh
 source "$SCRIPT_DIR/../lib/common.sh"
 
-# These variables are read by functions from the sourced common library.
 # shellcheck disable=SC2034
 SCRIPT_NAME="wp-install-a11y-style-fix"
+# shellcheck disable=SC2034
 SCRIPT_SUMMARY="Install the accessibility-style-fix plugin on sites with a legacy or defective theme."
+# shellcheck disable=SC2034
 SCRIPT_USAGE="./run.sh [options]"
+# shellcheck disable=SC2034
 SCRIPT_ALLOWS_FORCE=1
+# shellcheck disable=SC2034
 SCRIPT_EXTRA_HELP="  --force          Redeploy even if the plugin is already active
 "
 

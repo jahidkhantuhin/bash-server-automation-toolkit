@@ -5,10 +5,11 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 # shellcheck source=../lib/common.sh
 source "$SCRIPT_DIR/../lib/common.sh"
 
-# These variables are read by functions from the sourced common library.
 # shellcheck disable=SC2034
 SCRIPT_NAME="wp-install-connector"
+# shellcheck disable=SC2034
 SCRIPT_SUMMARY="Install or update a connector plugin on every WordPress site and set its default webhook."
+# shellcheck disable=SC2034
 SCRIPT_USAGE="./run.sh [options]"
 
 PLUGIN_REPO="${GITHUB_ORG:-}/${CONNECTOR_REPO_NAME:-connector-plugin}"

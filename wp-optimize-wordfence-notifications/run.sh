@@ -5,10 +5,11 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 # shellcheck source=../lib/common.sh
 source "$SCRIPT_DIR/../lib/common.sh"
 
-# These variables are read by functions from the sourced common library.
 # shellcheck disable=SC2034
 SCRIPT_NAME="wp-optimize-wordfence-notifications"
+# shellcheck disable=SC2034
 SCRIPT_SUMMARY="Deploy wordpress-scripts and optimize the Wordfence notifications on every site."
+# shellcheck disable=SC2034
 SCRIPT_USAGE="./run.sh [options]"
 
 PLUGIN_REPO="${GITHUB_ORG:-}/${WORDPRESS_SCRIPTS_REPO_NAME:-wordpress-scripts}"
