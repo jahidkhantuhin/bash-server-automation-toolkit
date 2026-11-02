@@ -26,9 +26,9 @@ Each folder is one focused script. They all share a small library (`lib/common.s
 |---|---|---|
 | [`wp-breeze-purge-all`](wp-breeze-purge-all) | Purges the Breeze cache on every site | `script.sh` |
 | [`wp-install-a11y-style-fix`](wp-install-a11y-style-fix) | Installs the accessibility style fix plugin on sites with a legacy or defective theme | `install.sh` |
-| [`wp-install-example-connector`](wp-install-example-connector) | Installs or updates the example Connector plugin and sets its default webhook | `install_1.sh` |
-| [`wp-optimize-wordfence-notifications`](wp-optimize-wordfence-notifications) | Deploys example-wordpress-scripts and optimizes Wordfence notifications | `script_1.sh` |
-| [`wp-fix-number-flipper`](wp-fix-number-flipper) | Deploys example-wordpress-scripts and fixes the Number Flipper | `fix_flipper.sh` |
+| [`wp-install-connector`](wp-install-connector) | Installs or updates a configurable connector plugin and sets its default webhook | `install_1.sh` |
+| [`wp-optimize-wordfence-notifications`](wp-optimize-wordfence-notifications) | Deploys the configurable shared scripts plugin and optimizes Wordfence notifications | `script_1.sh` |
+| [`wp-fix-number-flipper`](wp-fix-number-flipper) | Deploys the configurable shared scripts plugin and fixes the Number Flipper | `fix_flipper.sh` |
 | [`wp-enable-user-registration`](wp-enable-user-registration) | Enables user registration, protected by an anti-spam plugin | `fix.sh` |
 | [`wp-plugin-bulk-command`](wp-plugin-bulk-command) | Runs any `wp plugin` command on every site, then purges Breeze | `script_44e708.sh` |
 | [`wp-option-bulk-command`](wp-option-bulk-command) | Runs any `wp option` command on every site, then purges Breeze | `script_1dbafb.sh` |
@@ -39,7 +39,7 @@ Each folder is one focused script. They all share a small library (`lib/common.s
 - [WP-CLI](https://wp-cli.org) as `wp` (preinstalled on Cloudways)
 - Bash 4.4 or newer
 - `git` and a GitHub token, for the scripts that clone private repos
-- `composer`, for `wp-install-example-connector`
+- `composer`, for `wp-install-connector`
 
 ## Quick start
 
@@ -49,13 +49,13 @@ cd bash-server-automation-toolkit
 
 # Only needed for scripts that clone private repos
 cp .env.example .env && chmod 600 .env
-nano .env                     # paste your GITHUB_TOKEN
+nano .env                     # set GITHUB_ORG and GITHUB_TOKEN
 
 # Always preview first
-./wp-install-example-connector/run.sh --dry-run
+./wp-install-connector/run.sh --dry-run
 
 # Then run for real
-./wp-install-example-connector/run.sh
+./wp-install-connector/run.sh
 ```
 
 Keep a record of any run with:
@@ -81,9 +81,16 @@ Settings come from environment variables, or from an untracked `.env` file in th
 
 | Variable | Used by | Default | Description |
 |---|---|---|---|
-| `GITHUB_TOKEN` | scripts that clone private repos | none | Read-only token for the example repos |
+| `GITHUB_ORG` | scripts that clone private repos | none | GitHub organization or username containing the configured repositories |
+| `GITHUB_TOKEN` | scripts that clone private repos | none | Read-only token for the configured repositories |
+| `A11Y_REPO_NAME` | `wp-install-a11y-style-fix` | `accessibility-style-fix` | Repository name for the accessibility plugin |
+| `WORDPRESS_SCRIPTS_REPO_NAME` | scripts that deploy shared scripts | `wordpress-scripts` | Repository name for the shared WordPress scripts plugin |
+| `WORDPRESS_SCRIPTS_PLUGIN_SLUG` | scripts that deploy shared scripts | `wordpress-scripts` | WordPress plugin directory slug |
+| `CONNECTOR_REPO_NAME` | `wp-install-connector` | `connector-plugin` | Connector plugin repository name |
+| `CONNECTOR_PLUGIN_SLUG` | `wp-install-connector` | `connector-plugin` | WordPress plugin directory slug |
+| `CONNECTOR_POST_COMMAND` | `wp-install-connector` | `set_connector_webhook_default` | WP-CLI command run after activation |
 | `APPS_ROOT` | all | `/home/master/applications` | Where the apps live |
-| `COMPOSER_FLAGS` | `wp-install-example-connector` | `--no-dev --no-interaction --prefer-dist --optimize-autoloader` | Flags for `composer install` |
+| `COMPOSER_FLAGS` | `wp-install-connector` | `--no-dev --no-interaction --prefer-dist --optimize-autoloader` | Flags for `composer install` |
 | `LEGACY_THEMES` | `wp-install-a11y-style-fix` | `leadhubtheme onepageextendedtheme` | Space-separated theme slugs that count as legacy |
 | `ALLOW_ROOT` | all | unset | Escape hatch used by the test suite; don't set it on a server |
 
@@ -121,7 +128,7 @@ bash-server-automation-toolkit/
 │   └── common.sh                 # shared library
 ├── wp-breeze-purge-all/          # each folder: run.sh + README.md
 ├── wp-install-a11y-style-fix/
-├── wp-install-example-connector/
+├── wp-install-connector/
 ├── wp-optimize-wordfence-notifications/
 ├── wp-fix-number-flipper/
 ├── wp-enable-user-registration/

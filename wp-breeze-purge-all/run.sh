@@ -5,6 +5,8 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 # shellcheck source=../lib/common.sh
 source "$SCRIPT_DIR/../lib/common.sh"
 
+# These variables are read by functions from the sourced common library.
+# shellcheck disable=SC2034
 SCRIPT_NAME="wp-breeze-purge-all"
 SCRIPT_SUMMARY="Purge the Breeze cache on every WordPress site on this server."
 SCRIPT_USAGE="./run.sh [options]"

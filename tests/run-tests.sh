@@ -27,6 +27,10 @@ out_lacks(){ [[ "$OUT" != *"$1"* ]]; }
 rc_is()    { [[ "$RC" -eq "$1" ]]; }
 exists()   { [[ -e "$SITES/$1" ]]; }
 missing()  { [[ ! -e "$SITES/$1" ]]; }
+no_hidden_entries() {
+  local entry
+  ( shopt -s nullglob; for entry in "$1"/.[!.]* "$1"/..?*; do [[ ! -e "$entry" ]] || exit 1; done )
+}
 file_has() { grep -qF -- "$2" "$SITES/$1" 2>/dev/null; }
 file_lacks(){ ! grep -qF -- "$2" "$SITES/$1" 2>/dev/null; }
 log_has()  { grep -qF -- "$2" "$1" 2>/dev/null; }
@@ -56,7 +60,7 @@ new_fixture() {
 run() {  # run <folder> [args...]   (stdin is not a TTY, like cron or CI)
   local folder="$1"
   shift
-  OUT="$(PATH="$HERE/stubs:$PATH" APPS_ROOT="$SITES" ALLOW_ROOT=1 \
+  OUT="$(PATH="$HERE/stubs:$PATH" APPS_ROOT="$SITES" ALLOW_ROOT=1 GITHUB_ORG=example-org \
          "$REPO/$folder/run.sh" "$@" < /dev/null 2>&1)"
   RC=$?
 }
@@ -119,7 +123,7 @@ check "activates the plugin"                  exists legacy/public_html/.active/
 check "skips a modern theme"                  missing modern/public_html/wp-content/plugins/accessibility-style-fix
 check "clones exactly once for all sites"     [ "$(grep -c 'ARGV:.*clone' "$GIT_STUB_LOG")" -eq 1 ]
 check "token is NOT on the command line"      log_lacks "$GIT_STUB_LOG" "$TOKEN"
-check "clone URL has no credentials"          log_has "$GIT_STUB_LOG" "https://github.com/example/accessibility-style-fix.git"
+check "clone URL has no credentials"          log_has "$GIT_STUB_LOG" "https://github.com/example-org/accessibility-style-fix.git"
 check "token reaches git via the environment" log_has "$GIT_STUB_LOG" "TOKEN_IN_ENV: yes"
 check "token is not saved in the site's .git/config" file_lacks legacy/public_html/wp-content/plugins/accessibility-style-fix/.git/config "ghp_"
 run wp-install-a11y-style-fix --yes
@@ -141,37 +145,37 @@ GITHUB_TOKEN="" run wp-install-a11y-style-fix --yes --app legacy
 rm -f "$REPO/.env"
 check "token is read from .env"               rc_is 0
 
-echo "wp-install-example-connector"
+echo "wp-install-connector"
 new_fixture
-old="$SITES/legacy/public_html/wp-content/plugins/example-Connector"
-mkdir -p "$old"; echo "old-version" > "$old/plugin.php"; touch "$SITES/legacy/public_html/.active/example-Connector"
-run wp-install-example-connector --yes
+old="$SITES/legacy/public_html/wp-content/plugins/connector-plugin"
+mkdir -p "$old"; echo "old-version" > "$old/plugin.php"; touch "$SITES/legacy/public_html/.active/connector-plugin"
+run wp-install-connector --yes
 check "run exits 0"                           rc_is 0
-check "replaces the old version"              file_has legacy/public_html/wp-content/plugins/example-Connector/plugin.php "new-version"
-check "ships composer dependencies"           exists legacy/public_html/wp-content/plugins/example-Connector/vendor/autoload.php
+check "replaces the old version"              file_has legacy/public_html/wp-content/plugins/connector-plugin/plugin.php "new-version"
+check "ships composer dependencies"           exists legacy/public_html/wp-content/plugins/connector-plugin/vendor/autoload.php
 check "composer runs once, not per site"      [ "$(wc -l < "$COMPOSER_STUB_LOG")" -eq 1 ]
 check "uses production composer flags"        log_has "$COMPOSER_STUB_LOG" "--no-dev"
-check "runs the webhook command on every site" [ "$(cat "$SITES"/*/public_html/.cmdlog 2>/dev/null | grep -c set_example_connector_webhook_default)" -eq 3 ]
-check "no backup folders left behind"         [ -z "$(ls -A "$SITES/legacy/public_html/wp-content/plugins" | grep '^\.')" ]
+check "runs the webhook command on every site" [ "$(cat "$SITES"/*/public_html/.cmdlog 2>/dev/null | grep -c set_connector_webhook_default)" -eq 3 ]
+check "no backup folders left behind"         no_hidden_entries "$SITES/legacy/public_html/wp-content/plugins"
 
-echo "wp-install-example-connector: automatic rollback"
+echo "wp-install-connector: automatic rollback"
 new_fixture
-old="$SITES/legacy/public_html/wp-content/plugins/example-Connector"
-mkdir -p "$old"; echo "old-version" > "$old/plugin.php"; touch "$SITES/legacy/public_html/.active/example-Connector"
+old="$SITES/legacy/public_html/wp-content/plugins/connector-plugin"
+mkdir -p "$old"; echo "old-version" > "$old/plugin.php"; touch "$SITES/legacy/public_html/.active/connector-plugin"
 touch "$SITES/legacy/public_html/.fail_cmd"
-run wp-install-example-connector --yes
+run wp-install-connector --yes
 check "exits 1 when the post-command fails"   rc_is 1
 check "names the failed app"                  out_has "Failed apps: legacy"
-check "restores the previous plugin files"    file_has legacy/public_html/wp-content/plugins/example-Connector/plugin.php "old-version"
-check "re-activates the previous plugin"      exists legacy/public_html/.active/example-Connector
-check "other sites still get the new version" file_has modern/public_html/wp-content/plugins/example-Connector/plugin.php "new-version"
-run wp-install-example-connector --dry-run
+check "restores the previous plugin files"    file_has legacy/public_html/wp-content/plugins/connector-plugin/plugin.php "old-version"
+check "re-activates the previous plugin"      exists legacy/public_html/.active/connector-plugin
+check "other sites still get the new version" file_has modern/public_html/wp-content/plugins/connector-plugin/plugin.php "new-version"
+run wp-install-connector --dry-run
 check "dry run mentions composer"             out_has "composer install"
 
 echo "wp-optimize-wordfence-notifications / wp-fix-number-flipper"
 new_fixture
 run wp-optimize-wordfence-notifications --yes
-check "deploys the scripts plugin"            exists modern/public_html/wp-content/plugins/example-wordpress-scripts/plugin.php
+check "deploys the scripts plugin"            exists modern/public_html/wp-content/plugins/wordpress-scripts/plugin.php
 check "runs optimize_wordfence_notifications" file_has modern/public_html/.cmdlog "optimize_wordfence_notifications"
 new_fixture
 run wp-fix-number-flipper --yes

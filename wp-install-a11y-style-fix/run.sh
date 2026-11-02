@@ -5,6 +5,8 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 # shellcheck source=../lib/common.sh
 source "$SCRIPT_DIR/../lib/common.sh"
 
+# These variables are read by functions from the sourced common library.
+# shellcheck disable=SC2034
 SCRIPT_NAME="wp-install-a11y-style-fix"
 SCRIPT_SUMMARY="Install the accessibility-style-fix plugin on sites with a legacy or defective theme."
 SCRIPT_USAGE="./run.sh [options]"
@@ -12,7 +14,7 @@ SCRIPT_ALLOWS_FORCE=1
 SCRIPT_EXTRA_HELP="  --force          Redeploy even if the plugin is already active
 "
 
-PLUGIN_REPO="example/accessibility-style-fix"
+PLUGIN_REPO="${GITHUB_ORG:-}/${A11Y_REPO_NAME:-accessibility-style-fix}"
 PLUGIN_SLUG="accessibility-style-fix"
 # Space-separated theme slugs that count as "legacy". Override via the environment.
 read -ra legacy_themes <<< "${LEGACY_THEMES:-leadhubtheme onepageextendedtheme}"

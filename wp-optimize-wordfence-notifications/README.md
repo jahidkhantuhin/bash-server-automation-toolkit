@@ -1,12 +1,12 @@
 # wp-optimize-wordfence-notifications
 
-> Deploy the `example-wordpress-scripts` plugin on every site and optimize its Wordfence notifications.
+> Deploy the `wordpress-scripts` plugin on every site and optimize its Wordfence notifications.
 
 *Replaces the original `script_1.sh`.*
 
 ## What it does
 
-1. Clones `example/example-wordpress-scripts` **once**.
+1. Clones `${GITHUB_ORG}/wordpress-scripts` **once**.
 2. For each site: swaps the plugin in (keeping the old version until the end), activates it, then runs `wp optimize_wordfence_notifications`.
 3. If any step fails on a site, the previous version is restored.
 
@@ -37,12 +37,12 @@ cd wp-optimize-wordfence-notifications
 ## Example output
 
 ```
-2026-11-02 09:40:01 [INFO ] Cloning example/example-wordpress-scripts (once; reused for every site)
+2026-11-02 09:40:01 [INFO ] Cloning ${GITHUB_ORG}/wordpress-scripts (once; reused for every site)
 2026-11-02 09:40:03 [INFO ] Processing 2 WordPress site(s)
 2026-11-02 09:40:03 [INFO ] [kqzmvtxjdn] Working on https://client-one.com
-Success: Plugin 'example-wordpress-scripts' activated.
+Success: Plugin 'wordpress-scripts' activated.
 Success: optimize_wordfence_notifications done.
-2026-11-02 09:40:05 [INFO ] [kqzmvtxjdn] Deployed 'example-wordpress-scripts' and ran: wp optimize_wordfence_notifications
+2026-11-02 09:40:05 [INFO ] [kqzmvtxjdn] Deployed 'wordpress-scripts' and ran: wp optimize_wordfence_notifications
 2026-11-02 09:40:05 [INFO ] Summary: 2 done, 0 skipped, 0 failed
 ```
 

@@ -341,6 +341,8 @@ require_github_token() {
 stage_github_repo() {
   local repo="$1" tmp name="${1##*/}"
 
+  [[ "$repo" == */* && "$repo" != /* ]] || die "Set GITHUB_ORG in .env before running a script that clones a repository."
+
   require_github_token
   if (( DRY_RUN )); then
     log_info "[dry-run] would clone https://github.com/$repo.git once and reuse it for every site"

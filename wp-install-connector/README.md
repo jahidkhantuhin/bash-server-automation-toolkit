@@ -1,16 +1,16 @@
-# wp-install-example-connector
+# wp-install-connector
 
-> Install or update the **example-Connector** plugin on every site and set its default webhook.
+> Install or update the **connector-plugin** plugin on every site and set its default webhook.
 
 *Replaces the original `install_1.sh`.*
 
 ## What it does
 
-1. Clones `example/example-Connector` **once** and runs `composer install` **once**.
+1. Clones `${GITHUB_ORG}/connector-plugin` **once** and runs `composer install` **once**.
 2. For each site:
    1. Deactivates the existing plugin (if active).
    2. Moves the old version aside and swaps in the freshly built one.
-   3. Activates it and runs `wp set_example_connector_webhook_default`.
+   3. Activates it and runs `wp set_connector_webhook_default`.
 3. If any step fails on a site, the **previous version is restored** and re-activated, so the site is never left without its connector.
 
 ## Requirements
@@ -21,7 +21,7 @@
 ## Usage
 
 ```bash
-cd wp-install-example-connector
+cd wp-install-connector
 ./run.sh --dry-run
 ./run.sh --app abcdefghij   # one site first
 ./run.sh
@@ -45,14 +45,14 @@ COMPOSER_FLAGS="--no-interaction --prefer-dist" ./run.sh   # keep dev dependenci
 ## Example output
 
 ```
-2026-11-02 09:31:02 [INFO ] Cloning example/example-Connector (once; reused for every site)
+2026-11-02 09:31:02 [INFO ] Cloning ${GITHUB_ORG}/connector-plugin (once; reused for every site)
 2026-11-02 09:31:05 [INFO ] Installing PHP dependencies (once)
 2026-11-02 09:31:19 [INFO ] Processing 2 WordPress site(s)
 2026-11-02 09:31:19 [INFO ] [kqzmvtxjdn] Working on https://client-one.com
-Success: Plugin 'example-Connector' deactivated.
-Success: Plugin 'example-Connector' activated.
-Success: set_example_connector_webhook_default done.
-2026-11-02 09:31:21 [INFO ] [kqzmvtxjdn] Deployed 'example-Connector' and ran: wp set_example_connector_webhook_default
+Success: Plugin 'connector-plugin' deactivated.
+Success: Plugin 'connector-plugin' activated.
+Success: set_connector_webhook_default done.
+2026-11-02 09:31:21 [INFO ] [kqzmvtxjdn] Deployed 'connector-plugin' and ran: wp set_connector_webhook_default
 2026-11-02 09:31:21 [INFO ] Summary: 2 done, 0 skipped, 0 failed
 ```
 

@@ -1,17 +1,19 @@
 #!/usr/bin/env bash
-# wp-install-example-connector: (re)install the example-Connector plugin on every
+# wp-install-connector: (re)install the connector-plugin plugin on every
 # site and set its default webhook. Replaces the original install_1.sh.
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 # shellcheck source=../lib/common.sh
 source "$SCRIPT_DIR/../lib/common.sh"
 
-SCRIPT_NAME="wp-install-example-connector"
-SCRIPT_SUMMARY="Install or update the example-Connector plugin on every WordPress site and set its default webhook."
+# These variables are read by functions from the sourced common library.
+# shellcheck disable=SC2034
+SCRIPT_NAME="wp-install-connector"
+SCRIPT_SUMMARY="Install or update a connector plugin on every WordPress site and set its default webhook."
 SCRIPT_USAGE="./run.sh [options]"
 
-PLUGIN_REPO="example/example-Connector"
-PLUGIN_SLUG="example-Connector"
-POST_COMMAND="set_example_connector_webhook_default"
+PLUGIN_REPO="${GITHUB_ORG:-}/${CONNECTOR_REPO_NAME:-connector-plugin}"
+PLUGIN_SLUG="${CONNECTOR_PLUGIN_SLUG:-connector-plugin}"
+POST_COMMAND="${CONNECTOR_POST_COMMAND:-set_connector_webhook_default}"
 COMPOSER_FLAGS="${COMPOSER_FLAGS:---no-dev --no-interaction --prefer-dist --optimize-autoloader}"
 
 # Clone and build once; every site then gets a copy of the finished plugin.

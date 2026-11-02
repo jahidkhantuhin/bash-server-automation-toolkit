@@ -37,7 +37,7 @@ case "$1 ${2:-}" in
   "breeze purge")        echo purged >> "$cwd/.purged"; echo "Success: Cache purged." ;;
   *)
     case "$1" in
-      optimize_wordfence_notifications|fix_number_flipper|set_example_connector_webhook_default)
+      optimize_wordfence_notifications|fix_number_flipper|set_connector_webhook_default)
         [[ -f "$cwd/.fail_cmd" ]] && { echo "Error: $1 failed" >&2; exit 1; }
         echo "$1" >> "$cwd/.cmdlog"; echo "Success: $1 done." ;;
       *) echo "wp stub: unsupported command: $*" >&2; exit 99 ;;

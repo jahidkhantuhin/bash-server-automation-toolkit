@@ -8,7 +8,7 @@
 
 1. Reads each site's active theme.
 2. If the theme is a **legacy theme** (`leadhubtheme` or `onepageextendedtheme`) or **no active theme can be found** (a defective theme), the site needs the fix. Every other site is skipped.
-3. Clones `example/accessibility-style-fix` **once**, then copies it into each site that needs it.
+3. Clones `${GITHUB_ORG}/accessibility-style-fix` **once**, then copies it into each site that needs it.
 4. Activates the plugin.
 
 Sites where the plugin is already active are skipped, so the script is safe to run again.
@@ -46,7 +46,7 @@ LEGACY_THEMES="leadhubtheme onepageextendedtheme oldtheme" ./run.sh --dry-run
 ## Example output
 
 ```
-2026-11-02 09:20:11 [INFO ] Cloning example/accessibility-style-fix (once; reused for every site)
+2026-11-02 09:20:11 [INFO ] Cloning ${GITHUB_ORG}/accessibility-style-fix (once; reused for every site)
 2026-11-02 09:20:13 [INFO ] Processing 3 WordPress site(s)
 2026-11-02 09:20:13 [INFO ] [kqzmvtxjdn] Working on https://client-one.com
 2026-11-02 09:20:14 [INFO ] [kqzmvtxjdn] Active theme 'leadhubtheme' is a legacy theme

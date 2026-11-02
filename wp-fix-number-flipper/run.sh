@@ -1,16 +1,18 @@
 #!/usr/bin/env bash
-# wp-fix-number-flipper: deploy example-wordpress-scripts and run its Number
+# wp-fix-number-flipper: deploy wordpress-scripts and run its Number
 # Flipper fix. Replaces the original fix_flipper.sh.
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 # shellcheck source=../lib/common.sh
 source "$SCRIPT_DIR/../lib/common.sh"
 
+# These variables are read by functions from the sourced common library.
+# shellcheck disable=SC2034
 SCRIPT_NAME="wp-fix-number-flipper"
-SCRIPT_SUMMARY="Deploy example-wordpress-scripts and fix the Number Flipper on every site."
+SCRIPT_SUMMARY="Deploy wordpress-scripts and fix the Number Flipper on every site."
 SCRIPT_USAGE="./run.sh [options]"
 
-PLUGIN_REPO="example/example-wordpress-scripts"
-PLUGIN_SLUG="example-wordpress-scripts"
+PLUGIN_REPO="${GITHUB_ORG:-}/${WORDPRESS_SCRIPTS_REPO_NAME:-wordpress-scripts}"
+PLUGIN_SLUG="${WORDPRESS_SCRIPTS_PLUGIN_SLUG:-wordpress-scripts}"
 WP_COMMAND="fix_number_flipper"
 
 stage_repo() { stage_github_repo "$PLUGIN_REPO"; }

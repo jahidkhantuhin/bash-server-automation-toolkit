@@ -1,12 +1,12 @@
 # wp-fix-number-flipper
 
-> Deploy the `example-wordpress-scripts` plugin on every site and run its Number Flipper fix.
+> Deploy the `wordpress-scripts` plugin on every site and run its Number Flipper fix.
 
 *Replaces the original `fix_flipper.sh`.*
 
 ## What it does
 
-1. Clones `example/example-wordpress-scripts` **once**.
+1. Clones `${GITHUB_ORG}/wordpress-scripts` **once**.
 2. For each site: swaps the plugin in (keeping the old version until the end), activates it, then runs `wp fix_number_flipper`.
 3. If any step fails on a site, the previous version is restored.
 
@@ -36,12 +36,12 @@ cd wp-fix-number-flipper
 ## Example output
 
 ```
-2026-11-02 09:48:10 [INFO ] Cloning example/example-wordpress-scripts (once; reused for every site)
+2026-11-02 09:48:10 [INFO ] Cloning ${GITHUB_ORG}/wordpress-scripts (once; reused for every site)
 2026-11-02 09:48:12 [INFO ] Processing 2 WordPress site(s)
 2026-11-02 09:48:12 [INFO ] [kqzmvtxjdn] Working on https://client-one.com
-Success: Plugin 'example-wordpress-scripts' activated.
+Success: Plugin 'wordpress-scripts' activated.
 Success: fix_number_flipper done.
-2026-11-02 09:48:14 [INFO ] [kqzmvtxjdn] Deployed 'example-wordpress-scripts' and ran: wp fix_number_flipper
+2026-11-02 09:48:14 [INFO ] [kqzmvtxjdn] Deployed 'wordpress-scripts' and ran: wp fix_number_flipper
 2026-11-02 09:48:14 [INFO ] Summary: 2 done, 0 skipped, 0 failed
 ```
 
