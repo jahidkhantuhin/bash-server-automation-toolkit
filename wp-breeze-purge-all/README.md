@@ -23,9 +23,9 @@ Purging a cache is harmless, so this script does not ask for confirmation.
 
 ```bash
 cd wp-breeze-purge-all
-./run.sh --dry-run        # preview
-./run.sh                  # purge everywhere
-./run.sh --app abcdefghij # purge one app only
+bash ./run.sh --dry-run        # preview
+bash ./run.sh                  # purge everywhere
+bash ./run.sh --app abcdefghij # purge one app only
 ```
 
 ## Options

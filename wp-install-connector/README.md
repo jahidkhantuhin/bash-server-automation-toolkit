@@ -22,9 +22,9 @@
 
 ```bash
 cd wp-install-connector
-./run.sh --dry-run
-./run.sh --app abcdefghij   # one site first
-./run.sh
+bash ./run.sh --dry-run
+bash ./run.sh --app abcdefghij   # one site first
+bash ./run.sh
 ```
 
 ## Options
@@ -39,7 +39,7 @@ cd wp-install-connector
 Composer flags can be overridden through the environment:
 
 ```bash
-COMPOSER_FLAGS="--no-interaction --prefer-dist" ./run.sh   # keep dev dependencies, like the old script
+COMPOSER_FLAGS="--no-interaction --prefer-dist" bash ./run.sh   # keep dev dependencies, like the old script
 ```
 
 ## Example output

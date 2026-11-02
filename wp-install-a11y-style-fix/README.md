@@ -22,9 +22,9 @@ Sites where the plugin is already active are skipped, so the script is safe to r
 
 ```bash
 cd wp-install-a11y-style-fix
-./run.sh --dry-run          # see which sites would get the plugin
-./run.sh --app abcdefghij   # try one site first
-./run.sh                    # apply everywhere it's needed
+bash ./run.sh --dry-run          # see which sites would get the plugin
+bash ./run.sh --app abcdefghij   # try one site first
+bash ./run.sh                    # apply everywhere it's needed
 ```
 
 ## Options
@@ -40,7 +40,7 @@ cd wp-install-a11y-style-fix
 To change which themes count as legacy:
 
 ```bash
-LEGACY_THEMES="leadhubtheme onepageextendedtheme oldtheme" ./run.sh --dry-run
+LEGACY_THEMES="leadhubtheme onepageextendedtheme oldtheme" bash ./run.sh --dry-run
 ```
 
 ## Example output

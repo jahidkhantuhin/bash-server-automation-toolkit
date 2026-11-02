@@ -5,7 +5,7 @@
 ![Bash](https://img.shields.io/badge/Bash-4.4%2B-4EAA25?logo=gnubash&logoColor=white)
 ![WP-CLI](https://img.shields.io/badge/requires-WP--CLI-0073aa?logo=wordpress&logoColor=white)
 ![Platform](https://img.shields.io/badge/platform-Cloudways-1d4ed8)
-![Scripts](https://img.shields.io/badge/scripts-8-informational)
+![Scripts](https://img.shields.io/badge/scripts-10-informational)
 
 ---
 
@@ -32,6 +32,8 @@ Each folder is one focused script. They all share a small library (`lib/common.s
 | [`wp-enable-user-registration`](wp-enable-user-registration) | Enables user registration, protected by an anti-spam plugin | `fix.sh` |
 | [`wp-plugin-bulk-command`](wp-plugin-bulk-command) | Runs any `wp plugin` command on every site, then purges Breeze | `script_44e708.sh` |
 | [`wp-option-bulk-command`](wp-option-bulk-command) | Runs any `wp option` command on every site, then purges Breeze | `script_1dbafb.sh` |
+| [`wp-list-sites`](wp-list-sites) | Lists each WordPress site's name and URL | — |
+| [`wp-list-site-urls`](wp-list-site-urls) | Lists WordPress site URLs only | — |
 
 ## Requirements
 
@@ -52,10 +54,17 @@ cp .env.example .env && chmod 600 .env
 nano .env                     # set GITHUB_ORG and GITHUB_TOKEN
 
 # Always preview first
-./wp-install-connector/run.sh --dry-run
+bash ./wp-install-connector/run.sh --dry-run
 
 # Then run for real
-./wp-install-connector/run.sh
+bash ./wp-install-connector/run.sh
+```
+
+Site inventory commands:
+
+```bash
+bash ./wp-list-sites/run.sh
+bash ./wp-list-site-urls/run.sh
 ```
 
 Keep a record of any run with:
@@ -167,7 +176,7 @@ source "$SCRIPT_DIR/../lib/common.sh"
 
 SCRIPT_NAME="wp-my-task"
 SCRIPT_SUMMARY="One line describing what it does."
-SCRIPT_USAGE="./run.sh [options]"
+SCRIPT_USAGE="bash ./run.sh [options]"
 
 process_site() {
   # Runs inside the site's public_html. Use `mutate` for anything that changes state.

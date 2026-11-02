@@ -24,9 +24,9 @@ If any step fails, the remaining steps for that site don't run. A site is never 
 
 ```bash
 cd wp-enable-user-registration
-./run.sh --dry-run
-./run.sh --app abcdefghij   # one site first
-./run.sh
+bash ./run.sh --dry-run
+bash ./run.sh --app abcdefghij   # one site first
+bash ./run.sh
 ```
 
 ## Options

@@ -24,11 +24,11 @@ Put this script's options **before** the WP-CLI subcommand:
 ```bash
 cd wp-option-bulk-command
 
-./run.sh get blogname                                  # read it on every site
-./run.sh --dry-run update blogdescription "New tagline"
-./run.sh --yes update blogdescription "New tagline"
-./run.sh --yes --no-purge update timezone_string "Asia/Dhaka"
-./run.sh --app abcdefghij --yes update admin_email you@example.com
+bash ./run.sh get blogname                                  # read it on every site
+bash ./run.sh --dry-run update blogdescription "New tagline"
+bash ./run.sh --yes update blogdescription "New tagline"
+bash ./run.sh --yes --no-purge update timezone_string "Asia/Dhaka"
+bash ./run.sh --app abcdefghij --yes update admin_email you@example.com
 ```
 
 ## Options
@@ -44,7 +44,7 @@ cd wp-option-bulk-command
 ## Example output
 
 ```
-$ ./run.sh --yes update blogdescription "New tagline"
+$ bash ./run.sh --yes update blogdescription "New tagline"
 2026-11-02 10:24:05 [INFO ] Processing 2 WordPress site(s)
 2026-11-02 10:24:05 [INFO ] [kqzmvtxjdn] Working on https://client-one.com
 Success: Updated 'blogdescription' option.

@@ -24,13 +24,13 @@ Put this script's options **before** the WP-CLI subcommand:
 ```bash
 cd wp-plugin-bulk-command
 
-./run.sh list                              # read-only, runs right away
-./run.sh --dry-run update --all            # preview
-./run.sh --yes update --all                # update every plugin everywhere
-./run.sh --yes deactivate hello-dolly
-./run.sh --yes --no-purge install akismet --activate
-./run.sh --app abcdefghij update --all     # one site only
-./run.sh --yes -- update --all             # "--" also separates the two
+bash ./run.sh list                              # read-only, runs right away
+bash ./run.sh --dry-run update --all            # preview
+bash ./run.sh --yes update --all                # update every plugin everywhere
+bash ./run.sh --yes deactivate hello-dolly
+bash ./run.sh --yes --no-purge install akismet --activate
+bash ./run.sh --app abcdefghij update --all     # one site only
+bash ./run.sh --yes -- update --all             # "--" also separates the two
 ```
 
 ## Options
@@ -46,7 +46,7 @@ cd wp-plugin-bulk-command
 ## Example output
 
 ```
-$ ./run.sh --yes update --all
+$ bash ./run.sh --yes update --all
 2026-11-02 10:15:30 [INFO ] Processing 2 WordPress site(s)
 2026-11-02 10:15:30 [INFO ] [kqzmvtxjdn] Working on https://client-one.com
 Success: Plugins updated.

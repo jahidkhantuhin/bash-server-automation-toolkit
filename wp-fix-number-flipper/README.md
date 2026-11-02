@@ -19,9 +19,9 @@
 
 ```bash
 cd wp-fix-number-flipper
-./run.sh --dry-run
-./run.sh --app abcdefghij   # one site first
-./run.sh
+bash ./run.sh --dry-run
+bash ./run.sh --app abcdefghij   # one site first
+bash ./run.sh
 ```
 
 ## Options
