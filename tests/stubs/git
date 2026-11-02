@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+# git stand-in: records how it was called and fakes `git clone`.
+{
+  printf 'ARGV: %s\n' "$*"
+  printf 'TOKEN_IN_ENV: %s\n' "${GITHUB_TOKEN:+yes}"
+} >> "${GIT_STUB_LOG:-/dev/null}"
+
+if [[ -n "${GIT_STUB_FAIL:-}" ]]; then
+  echo "fatal: Authentication failed" >&2
+  exit 128
+fi
+
+args=("$@")
+dest="${args[${#args[@]}-1]}"
+url="${args[${#args[@]}-2]}"
+mkdir -p "$dest/.git"
+printf '[remote "origin"]\n\turl = %s\n' "$url" > "$dest/.git/config"
+echo "new-version" > "$dest/plugin.php"

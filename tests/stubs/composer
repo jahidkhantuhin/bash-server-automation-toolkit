@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+# composer stand-in: records flags and creates vendor/autoload.php.
+echo "composer $*" >> "${COMPOSER_STUB_LOG:-/dev/null}"
+mkdir -p vendor && : > vendor/autoload.php

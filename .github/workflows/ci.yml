@@ -1,0 +1,17 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: ShellCheck
+        run: shellcheck -x -S warning lib/common.sh */run.sh tests/run-tests.sh tests/stubs/*
+
+      - name: Run tests
+        run: ./tests/run-tests.sh

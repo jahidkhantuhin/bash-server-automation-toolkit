@@ -1,0 +1,45 @@
+#!/usr/bin/env bash
+# Minimal WP-CLI stand-in for the test suite. State lives in dotfiles inside the
+# site folder (the current directory), so every test can inspect what happened.
+cwd="$PWD"
+app="$(basename "$(dirname "$cwd")")"
+printf '%s: wp %s\n' "$app" "$*" >> "${WP_STUB_LOG:-/dev/null}"
+
+args=()
+for a in "$@"; do
+  case "$a" in --skip-plugins|--skip-themes) ;; *) args+=("$a") ;; esac
+done
+set -- "${args[@]}"
+
+if [[ -f "$cwd/.broken" ]]; then
+  echo "Error: Error establishing a database connection." >&2
+  exit 1
+fi
+
+case "$1 ${2:-}" in
+  "option get")
+    if [[ "$3" == "siteurl" ]]; then echo "https://$app.example.test"; exit 0; fi
+    [[ -f "$cwd/.opt_$3" ]] && cat "$cwd/.opt_$3" || exit 1 ;;
+  "option update")
+    printf '%s\n' "$4" > "$cwd/.opt_$3"; echo "Success: Updated '$3' option." ;;
+  "theme list")
+    [[ -s "$cwd/.theme" ]] && cat "$cwd/.theme" ; exit 0 ;;
+  "plugin is-active")    [[ -e "$cwd/.active/$3" ]] ;;
+  "plugin is-installed") [[ -d "$cwd/wp-content/plugins/$3" ]] ;;
+  "plugin activate")
+    [[ -f "$cwd/.fail_activate" ]] && { echo "Error: activation failed" >&2; exit 1; }
+    [[ -d "$cwd/wp-content/plugins/$3" ]] || { echo "Error: plugin '$3' not found" >&2; exit 1; }
+    mkdir -p "$cwd/.active"; touch "$cwd/.active/$3"; echo "Success: Plugin '$3' activated." ;;
+  "plugin deactivate")   rm -f "$cwd/.active/$3"; echo "Success: Plugin '$3' deactivated." ;;
+  "plugin install")      mkdir -p "$cwd/wp-content/plugins/$3"; echo "Success: Installed '$3'." ;;
+  "plugin list")         ls "$cwd/wp-content/plugins" ;;
+  "plugin update")       echo "Success: Plugins updated." ;;
+  "breeze purge")        echo purged >> "$cwd/.purged"; echo "Success: Cache purged." ;;
+  *)
+    case "$1" in
+      optimize_wordfence_notifications|fix_number_flipper|set_example_connector_webhook_default)
+        [[ -f "$cwd/.fail_cmd" ]] && { echo "Error: $1 failed" >&2; exit 1; }
+        echo "$1" >> "$cwd/.cmdlog"; echo "Success: $1 done." ;;
+      *) echo "wp stub: unsupported command: $*" >&2; exit 99 ;;
+    esac ;;
+esac
