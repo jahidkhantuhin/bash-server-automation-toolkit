@@ -7,6 +7,9 @@ set -uo pipefail
 
 HERE="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 REPO="$(dirname "$HERE")"
+# ZIP tools on Windows may drop Unix executable bits. Restore them for scripts
+# and PATH stubs used by this test suite before invoking them.
+chmod +x "$HERE/run-tests.sh" "$HERE"/stubs/* "$REPO"/*/run.sh
 TOKEN="ghp_TESTTOKEN1234567890"
 PASS=0
 FAIL=0

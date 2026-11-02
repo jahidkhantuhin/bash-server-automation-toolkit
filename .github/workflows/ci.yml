@@ -14,4 +14,4 @@ jobs:
         run: shellcheck -x -S warning lib/common.sh */run.sh tests/run-tests.sh tests/stubs/*
 
       - name: Run tests
-        run: ./tests/run-tests.sh
+        run: bash ./tests/run-tests.sh
