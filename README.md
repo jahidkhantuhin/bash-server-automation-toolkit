@@ -191,3 +191,7 @@ exit $?
 ```
 
 Then add a README, a test in `tests/run-tests.sh`, and a row in the table above.
+
+## License
+
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
